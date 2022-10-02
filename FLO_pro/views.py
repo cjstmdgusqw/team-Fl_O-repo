@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 def newsfeed(request):
-    return render(request, "index.html")
+    return render(request, "main.html")
 
 def main(request):
     #* 로그인 체크
