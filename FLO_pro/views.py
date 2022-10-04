@@ -1,15 +1,44 @@
+from cgitb import text
+from xml.etree.ElementTree import Comment
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from post.models import PostModel
+from post.models import PostModel, Comment
 
 def newsfeed(request):
     print("함수실행맨")
     if request.method == 'GET':  # 요청하는 방식이 GET 방식인지 확인하기
-        user = request.user.is_authenticated  # 사용자가 로그인이 되어 있는지 확인하기
+        print("실행")
+        user = request.user.is_authenticated
+        print("실행2")  # 사용자가 로그인이 되어 있는지 확인하기
         if user:  # 로그인 한 사용자라면
             all_newsfeed = PostModel.objects.all().order_by('-create_at')
-            return render(request, 'main.html/', {'newsfeeds': all_newsfeed}) # list 
+            # for newsfeed in all_newsfeed:
+            #     print(newsfeed.comment_set.all())
+            # return render(request, 'main.html/', {'newsfeeds':all_newsfeed}) # list 
+            print("asdfasdf")
+            new_all_newsfeed = []
+            for newsfeed in all_newsfeed:
+                print("실행3")
+                reply = Comment.objects.filter(post = newsfeed)
+                for i in reply:
+                    i = i.text
+                
+                
+                print(reply)
+
+                new_all_newsfeed.append(dict(
+                    new_username = newsfeed.user.username,
+                    new_reply = reply,
+                    new_image = newsfeed.image,
+                    new_content = newsfeed.content,
+                ))
+                
+                
+                
+                
+                
+            return render(request, 'main.html/', {'newsfeeds': new_all_newsfeed}) # list 
         else:  # 로그인이 되어 있지 않다면
             return redirect('/user/signin/')
 

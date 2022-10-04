@@ -11,6 +11,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', Main.as_view()),
     path('posting/', views.posting),
+    path('comment/', views.comment),
     path('like/<int:id>', views.post_like, name='post_like'),
     path('delete/<int:id>', views.delete_post, name='delete_post'),
 ] 
