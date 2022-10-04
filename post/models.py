@@ -10,6 +10,14 @@ class PostModel(models.Model):
     like_count = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
     image = models.TextField(max_length=500, blank=True)
+
+class Comment(models.Model):
+    class Meta:
+        db_table = "user_comment"
+    post = models.ForeignKey(PostModel,on_delete=models.CASCADE)
+    comment_user = models.ForeignKey(UserModel, on_delete=models.CASCADE) # 작성자 
+    text = models.TextField(max_length = 300) #댓글 내용
+    create_at = models.DateTimeField(auto_now_add=True) # 생성 시간    
     
 
 # 이미지 파일 >>>>> 이미지파일을 media에 저장 저장시 이름을 uuid.hex << 이름을 바꿔줌 저장 >> db 이름저장 

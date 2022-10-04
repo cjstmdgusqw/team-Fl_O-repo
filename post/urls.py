@@ -10,5 +10,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', Main.as_view()),
     path('posting/', views.posting),
+    path('comment/', views.comment),
 ] 
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

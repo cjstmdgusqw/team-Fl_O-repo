@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import PostModel, UserModel
 from rest_framework.views import APIView
-from post.models import PostModel
+from post.models import PostModel, Comment
 from rest_framework.response import Response
 import os
 from FLO_pro.settings import MEDIA_ROOT
-from uuid import uuid4
+from uuid import uuid4 
+
 
 
 class Main(APIView):
@@ -54,38 +55,16 @@ def posting(request):
         return HttpResponse(200, "성공")
 
 
-
-
-
-
-
-
-
-
-
-        # my_tweet = TweetModel.objects.get(id=id)
-
-        ## user 정보 가져와야 함
-        my_posting = PostModel()
-        print("돌아가라 함수야~~~")
-        # user = request.POST.get('username', None)
-        user = my_user
-        content = request.POST.get('content', None)
-        like_count = request.POST.get('like_count', None)
-
-        my_posting.user = my_user
-        my_posting.content = content
+def comment(request):
+  
+    if request.method == 'POST':
+        username = request.user.username
+        my_comment = Comment()
+        a = request.POST.get('newsfeed_id','')
+        my_comment.post = PostModel.objects.get(id = a)
+        my_comment.comment_user = UserModel.objects.get(username = username)
+        print("되라아")
+        my_comment.text = request.POST.get('my-comment','')
+        my_comment.save()
+        return redirect('/')
         
-        my_posting.save()
-        return HttpResponse(200,"성공") # 200 > 성공했다는 뜻!
-        
-        
-
-# class PostModel(models.Model):
-#     class Meta:
-#         db_table = "my_post"
-#     user = models.ForeignKey(UserModel, on_delete=models.CASCADE) # 작성자  
-#     updated_at = models.DateTimeField(auto_now=True) # 변경 시간
-#     content = models.TextField(max_length=500, blank=True) # * status message
-#     like_count = models.IntegerField(default=0)
-#     create_at = models.DateTimeField(auto_now_add=True)
