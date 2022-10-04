@@ -63,21 +63,21 @@ def posting(request):
 
 
 
-        # my_tweet = TweetModel.objects.get(id=id)
+        # # my_tweet = TweetModel.objects.get(id=id)
 
-        ## user 정보 가져와야 함
-        my_posting = PostModel()
-        print("돌아가라 함수야~~~")
-        # user = request.POST.get('username', None)
-        user = my_user
-        content = request.POST.get('content', None)
-        like_count = request.POST.get('like_count', None)
+        # ## user 정보 가져와야 함
+        # my_posting = PostModel()
+        # print("돌아가라 함수야~~~")
+        # # user = request.POST.get('username', None)
+        # user = my_user
+        # content = request.POST.get('content', None)
+        # like_count = request.POST.get('like_count', None)
 
-        my_posting.user = my_user
-        my_posting.content = content
+        # my_posting.user = my_user
+        # my_posting.content = content
         
-        my_posting.save()
-        return HttpResponse(200,"성공") # 200 > 성공했다는 뜻!
+        # my_posting.save()
+        # return HttpResponse(200,"성공") # 200 > 성공했다는 뜻!
         
         
 
