@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .models import PostModel, UserModel
 from rest_framework.views import APIView
@@ -7,6 +7,12 @@ from rest_framework.response import Response
 import os
 from FLO_pro.settings import MEDIA_ROOT
 from uuid import uuid4
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .import models
+
+
+
 
 
 class Main(APIView):
@@ -55,6 +61,23 @@ def posting(request):
 
 
 
+@login_required
+def delete_post(request, id):
+    print("글 삭제 들어옴")
+    my_tweet = PostModel.objects.get(id=id)
+    my_tweet.delete()
+    return redirect('/')
+
+@login_required
+def post_like(request, id):
+    print("post like들어옴")
+    me = request.user
+    click_post = PostModel.objects.get(id=id) #클릭된 유저
+    if me in click_post.like.all(): #라이크 한 사람들 모두 가져옴
+        click_post.like.remove(request.user) # 그 사람중에 나를 뺌
+    else:
+        click_post.like.add(request.user)
+    return redirect('/')
 
 
 
@@ -63,21 +86,24 @@ def posting(request):
 
 
 
-        # my_tweet = TweetModel.objects.get(id=id)
 
-        ## user 정보 가져와야 함
-        my_posting = PostModel()
-        print("돌아가라 함수야~~~")
-        # user = request.POST.get('username', None)
-        user = my_user
-        content = request.POST.get('content', None)
-        like_count = request.POST.get('like_count', None)
 
-        my_posting.user = my_user
-        my_posting.content = content
+
+        # # my_tweet = TweetModel.objects.get(id=id)
+
+        # ## user 정보 가져와야 함
+        # my_posting = PostModel()
+        # print("돌아가라 함수야~~~")
+        # # user = request.POST.get('username', None)
+        # user = my_user
+        # content = request.POST.get('content', None)
+        # like_count = request.POST.get('like_count', None)
+
+        # my_posting.user = my_user
+        # my_posting.content = content
         
-        my_posting.save()
-        return HttpResponse(200,"성공") # 200 > 성공했다는 뜻!
+        # my_posting.save()
+        # return HttpResponse(200,"성공") # 200 > 성공했다는 뜻!
         
         
 

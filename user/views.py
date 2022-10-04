@@ -4,6 +4,7 @@ from .models import UserModel
 from django.contrib import auth
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 def main(request):
     return render(request, 'user/signin.html/') # 로그인
@@ -71,3 +72,6 @@ def index(request):
 
 def profile(request):
     return render(request, 'content/profile.html/') # 프로필
+
+ # user/views.py 
+
