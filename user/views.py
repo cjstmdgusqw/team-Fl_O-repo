@@ -5,9 +5,7 @@ from post.models import PostModel
 from django.contrib import auth
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-import os
 from FLO_pro.settings import MEDIA_ROOT
-from uuid import uuid4
 
 
 def main(request):
@@ -82,25 +80,10 @@ def profile(request):
     if request.method == 'GET': # GET 메서드로 요청이 들어올 경우        
         print("profile get mehtod")
         user = request.user.is_authenticated
+        my_user = request.user
         if user:  # 로그인 한 사용자라면
-            all_profile = PostModel.objects.all().order_by('-create_at')
-            return render(request, 'user/profile.html/', {'profiles': all_profile}) # list
+            user_profile = UserModel.objects.get(username=my_user.username)
+            post_profile = PostModel.objects.filter(user_id=user_profile).order_by('-create_at')
+            return render(request, 'user/profile.html/', {'profiles': user_profile, 'postprofiles':post_profile}) # list
         else:  # 로그인이 되어 있지 않다면
             return redirect('/user/profile/')
-    if request.method == 'POST':
-        print("posting method POST")
-        username = request.user.username
-        my_user = UserModel.objects.get(username=username) # db 에서 가져옴
-
-        file = request.FILES['file']
-        uuid_name = uuid4().hex # 자동생성
-        save_path = os.path.join(MEDIA_ROOT, uuid_name) # 저장 경로
-        with open(save_path, 'wb+') as destination: # 저장과정 ?
-            for chunk in file.chunks():
-                destination.write(chunk)
-        content = request.POST.get('content', None)
-        image = uuid_name # 사진 이름 (28918374919.jpg)
-        print(image)
-
-        PostModel.objects.create(content=content, image=image, user=my_user)
-        return HttpResponse(200, "성공")
