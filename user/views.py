@@ -6,6 +6,7 @@ from django.contrib import auth
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from FLO_pro.settings import MEDIA_ROOT
+from django.conf import settings
 
 
 def main(request):
@@ -77,6 +78,7 @@ def index(request):
 #     return render(request, 'user/profile.html')
 
 def profile(request):
+
     if request.method == 'GET': # GET 메서드로 요청이 들어올 경우        
         print("profile get mehtod")
         user = request.user.is_authenticated

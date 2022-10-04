@@ -18,7 +18,9 @@
     <!-- jquery 사용하기 위해 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <title>FLORAL </title>
+
+    <title>FLORAL</title>
+
 </head>
 
 <style>
@@ -300,8 +302,8 @@
                 <div class="dropdown" style="position: relative; z-index: 9999">
                     <div class="navi_profile_box" id="dropdownMenuButton1"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="profile_img"
-                             src="/media/profile.png">
+
+                        <img class="profile_img"src="/media/profile.jpg"> 
                     </div>
 
                     <ul class="dropdown-menu" style="left: -130px" aria-labelledby="dropdownMenuButton1">
@@ -327,13 +329,20 @@
                         <img class="profile_img" src="#">
                     </div>
                     <span class="feed_name_txt">{{newsfeed.user.username}}</span>
+                    <div style="text-align: right">
+                        <a href="/post/delete/{{ newsfeed.id }}">
+                            <span class="badge rounded-pill bg-danger">삭제</span>
+                        </a>
+                    </div>
                 </div>
                 <img class="feed_img" src="{% get_media_prefix %}{{ newsfeed.image }}">
                 <div class="feed_icon">
                     <div>
-                        <span class="favorite_icon material-icons-outlined icons" feed_id="newsfeed.id" style="color: red">
-                                favorite
+                        <span class="favorite_icon material-icons-outlined icons" feed_id="newsfeed.id" style="color:red">
+                        <a href="/post/like/{{ newsfeed.id }}" class="card-link">favorite</a>
+
                         </span>
+
                         <span class="material-icons-outlined">
                             mode_comment
                         </span>
@@ -345,7 +354,7 @@
                     </div>
                 </div>
                 <div class="feed_like">
-                    <p class="feed_txt"><b>좋아요 <span>32</span>개</b></p>
+                    <p class="feed_txt"><b>좋아요 <span>{{post.like.like_count}}</span>개</b></p>
                 </div>
                 <div class="feed_content">
                     <p class="feed_txt"><b>{{newsfeed.user.username}}</b>&nbsp {{newsfeed.content}}</p>
