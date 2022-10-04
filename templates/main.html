@@ -18,7 +18,9 @@
     <!-- jquery 사용하기 위해 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+
     <title>FLORAL</title>
+
 </head>
 
 <style>
@@ -300,11 +302,12 @@
                 <div class="dropdown" style="position: relative; z-index: 9999">
                     <div class="navi_profile_box" id="dropdownMenuButton1"
                          data-bs-toggle="dropdown" aria-expanded="false">
+
                         <img class="profile_img"src="/media/profile.jpg"> 
                     </div>
 
                     <ul class="dropdown-menu" style="left: -130px" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">프로필</a></li>
+                        <li><a class="dropdown-item" href="/user/profile">프로필</a></li>
                         <li><a class="dropdown-item" href="#">저장됨</a></li>
                         <li>
                             <hr class="dropdown-divider">
@@ -319,55 +322,6 @@
     <!-- 바디 영역 -->
     <div class="main_body">
         <div class="left_body">
-            <!-- {% for feed in my_post %}
-                <div class="border feed_box">
-                    <div class="feed_name">
-                        <div class="profile_box">
-                            <img class="profile_img" src="https://i.pinimg.com/736x/93/a6/8b/93a68b57a54e4bdc73d43d1d049b94b3.jpg">
-                        </div>
-                        <span class="feed_name_txt">{{ feed.user.username }}</span>
-                    </div>
-                    <img class="feed_img" src="/media/{{ feed.image }}">
-                    <div class="feed_icon">
-                        <div>
-                            <span class="favorite_icon material-icons-outlined icons" feed_id="{{ feed.user.username }}" style="color: red">
-                                {% if feed.is_like %}
-                                    favorite
-                                {% else %}
-                                    favorite_border
-                                {% endif %}
-                            </span>
-                            <span class="material-icons-outlined">
-                                mode_comment
-                            </span>
-                        </div>
-                        <div>
-                            <span class="bookmark_icon material-icons-outlined" feed_id="{{ feed.userna }}">
-                                {% if feed.is_bookmarked %}
-                                    turned_in
-                                {% else %}
-                                    turned_in_not
-                                {% endif %}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="feed_like">
-                        <p class="feed_txt"><b>좋아요 <span>{{ feed.like_count }}</span>개</b></p>
-                    </div>
-                    <div class="feed_content">
-                        <p class="feed_txt"><b> {{ feed.content }} </b> {{ feed.user.username }}</p>
-                    </div>
-                    <div class="feed_reply">
-                        {% for reply in feed.reply_list %}
-                            <span class="feed_txt"> <b> {{ reply.user_id }} </b> {{ reply.content }} </span>
-                        {% endfor %}
-                    </div>
-                    <div class="feed_reply_write">
-                        <input type="text" class="write_reply_input floating_input form-control" style="border: none;" id="floatingName" placeholder="댓글 달기...">
-                        <span class="write_reply" feed_id="{{ feed.id }}" style="width: 60px; font-size: 16px; color: deepskyblue;font-weight: bold"> 게시 </span>
-                    </div>
-                </div>
-            {% endfor %} -->
             {% for newsfeed in newsfeeds %}
             <div class="border feed_box">
                 <div class="feed_name">

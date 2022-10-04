@@ -86,9 +86,6 @@ def post_like(request, id):
 
 
 
-
-
-
         # # my_tweet = TweetModel.objects.get(id=id)
 
         # ## user 정보 가져와야 함
