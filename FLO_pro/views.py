@@ -3,7 +3,7 @@ from xml.etree.ElementTree import Comment
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from post.models import PostModel, Comment
+from post.models import PostModel, Comment, UserModel
 
 def newsfeed(request):
     print("함수실행맨")
@@ -19,26 +19,26 @@ def newsfeed(request):
             print("asdfasdf")
             new_all_newsfeed = []
             for newsfeed in all_newsfeed:
-                print("실행3")
-                reply = Comment.objects.filter(post = newsfeed)
+                reply = Comment.objects.filter(post = newsfeed).order_by('-create_at')
                 for i in reply:
                     i = i.text
                 
-                
-                print(reply)
-
+                print(newsfeed.user.username)
                 new_all_newsfeed.append(dict(
-                    new_username = newsfeed.user.username,
+                    new_id = newsfeed.id,
+                    new_user = newsfeed.user,
                     new_reply = reply,
                     new_image = newsfeed.image,
                     new_content = newsfeed.content,
+                    new_likes = newsfeed.likes,
                 ))
+
+            all_user = UserModel.objects.all().exclude(id=request.user.id) 
+            print(all_user)
                 
                 
                 
-                
-                
-            return render(request, 'main.html/', {'newsfeeds': new_all_newsfeed}) # list 
+            return render(request, 'main.html/', {'newsfeeds': new_all_newsfeed,'all_users':all_user}) # list 
         else:  # 로그인이 되어 있지 않다면
             return redirect('/user/signin/')
 
@@ -54,3 +54,9 @@ def main(request):
         return redirect('/user/signin/')
 
 # localhost:8000/ 이걸 입력하면 main함수를 실행함
+
+def test(request):
+    print("팔로우 테스트 페이지")
+    user_follow = request.user
+    user_list = UserModel.objects.all().exclude(username=request.user.username)
+    return render(request,'user/user_list.html',{'user_list':user_list})

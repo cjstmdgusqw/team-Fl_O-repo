@@ -18,10 +18,11 @@
     <!-- jquery 사용하기 위해 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <title>FLORAL </title>
+    <title>FL_Ogram </title>
 </head>
 
 <style>
+    
     .main_body {
         display: flex;
         justify-content: center;
@@ -36,7 +37,7 @@
         min-width: 780px;
     }
 
-    .span {
+    span {
         padding-right: 5px;
     }
 
@@ -174,18 +175,19 @@
         color: #3399FF;
         font-family: "Helvetica";
         font-size: 10pt;
-        background-color: #ffffff;
+        background-color: #ffffff;  
         border: 1px solid;
         border-color: #3399FF;
         border-radius: 3px;
         width: 85px;
-        height: 30px;
-        position: absolute;	 
+        height: 30px;	 
         top: 50px;
         left: 50px;	
-        cursor: hand;		    
-}
-
+        cursor: hand;
+        margin-left : 10px;
+        margin-top : 5px;
+        		    
+  }
 </style>
 
 <body>
@@ -218,7 +220,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="newsfeed.html">로그아웃</a></li>
+                        <li><a class="dropdown-item" href="user/signout">로그아웃</a></li>
                     </ul>
                 </div>
             </div>
@@ -232,26 +234,34 @@
             <div style="display: flex; flex-direction: row">
                 <div class="big_profile_box">
                     <img class="profile_img"
-                         src="{% get_media_prefix %}{{ profiles.image }}">
+                         src="{% get_media_prefix %}{{ get_user.image }}"> 
                 </div>
                 <div style="display: flex; flex-direction: column; margin: 40px 60px">
                     <div class="mb-3" style="display: flex; flex-direction: row;">
-                        <div style="font-size: 24px"> {{ user.username }} </div>
+                    
+                        <div style="font-size: 24px"> {{ get_user.username }} </div>                        
+                        <!-- # idc
+                        # from_user_id 얘가
+                        # to_user_id 얘를 팔로우 한다 -->
+                        {%if user in get_user.follow.all %}
                         <div>
-                            <button id="button_write_feed" type="button"
-                                    style="margin-left: 10px;font-size: 14px;width: 120px; border: 1px solid silver; background-color: transparent" onclick="ajaxFileUpload()">
-                                프로필사진 변경
-                            </button>
-                            <input id="ajaxFile" type="file" onchange="ajaxFileChange()" name="profile" style="display: none">
-                        </div>
+                            <button class ="follow-button" onclick = "location.href = '/user/follow/{{get_user.id}}' ">언팔로우</button>	                            
+                        </div>                        
+                        {% else %}
+                        <div>
+                            <button class ="follow-button" onclick = "location.href = '/user/follow/{{get_user.id}}' ">팔로우</button>	                            
+                        </div>  
+                        {% endif %}
+                                                               
                     </div>
+                   
                     <div class="mb-3" style="display: flex; flex-direction: row; margin-right: 100px">
                         <div style="margin-right: 30px;"> 게시물 <span style="font-weight: bold"> {{ postprofiles.count }} </span></div>
-                        <div style="margin-right: 30px" href="#" > 팔로워 <span style="font-weight: bold"> {{ user.followee.count }} </span></div>
-                        <div style="margin-right: 30px" href="#"> 팔로우 <span style="font-weight: bold"> {{ user.follow.count }} </span></div>
+                        <div style="margin-right: 30px" href="#" > 팔로워 <span style="font-weight: bold"> {{ get_user.followee.count }} </span></div>
+                        <div style="margin-right: 30px" href="#"> 팔로우 <span style="font-weight: bold"> {{ get_user.follow.count }} </span></div>
                     </div>
                     <div style="display: flex; flex-direction: row">
-                        <div style="font-size: 18px;font-weight: bold"> {{ user.first_name }} </div>
+                        <div style="font-size: 18px;font-weight: bold"> {{ get_user.username }} </div>
                     </div>
 
                 </div>
@@ -645,7 +655,39 @@ assignment_ind
             }
         });
     }
+    $(document).ready(function(){				
 
+$(".follow-button").click(function(){
+  if ($(".follow-button").text() == "팔로우하기"){
+    // *** State Change: To Following ***      
+    // We want the button to squish (or shrink) by 10px as a reaction to the click and for it to last 100ms    
+    $(".follow-button").animate({ width: '-=10px' }, 100, 'easeInCubic', function () {});
+    
+    // then now we want the button to expand out to it's full state
+    // The left translation is to keep the button centred with it's longer width
+    $(".follow-button").animate({ width: '+=45px', left: '-=15px' }, 600, 'easeInOutBack', function () { 
+      $(".follow-button").css("color", "#fff");
+      $(".follow-button").text("Following");
+
+      // Animate the background transition from white to green. Using JQuery Color
+      $(".follow-button").animate({
+        backgroundColor: "#2EB82E",
+        borderColor: "#2EB82E"
+      }, 1000 );
+    });
+  }else{
+    
+    // *** State Change: Unfollow ***     
+    // Change the button back to it's original state
+    $(".follow-button").animate({ width: '-=25px', left: '+=15px' }, 600, 'easeInOutBack', function () { 
+      $(".follow-button").text("+ Follow");
+      $(".follow-button").css("color", "#3399FF");
+      $(".follow-button").css("background-color", "#ffffff");
+      $(".follow-button").css("border-color", "#3399FF");
+    });
+  }
+}); 
+});
 
 </script>
 

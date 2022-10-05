@@ -11,7 +11,8 @@ class PostModel(models.Model):
     like_count = models.IntegerField(default=0)
     create_at = models.DateTimeField(auto_now_add=True)
     image = models.TextField(max_length=500, blank=True)
-    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'like')
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'like', blank = True)
+
 
 class Comment(models.Model):
     class Meta:
